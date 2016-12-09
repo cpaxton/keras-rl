@@ -106,7 +106,7 @@ class Agent(object):
                     if self.processor is not None:
                         observation, r, done, info = self.processor.process_step(observation, r, done, info)
                     for key, value in info.items():
-                        if not all(np.isreal(value)):
+                        if not np.isreal(value):
                             continue
                         if key not in accumulated_info:
                             accumulated_info[key] = np.zeros_like(value)
