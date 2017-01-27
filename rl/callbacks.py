@@ -15,6 +15,12 @@ class Callback(KerasCallback):
     def _set_env(self, env):
         self.env = env
 
+    def _set_model(self, model):
+        self.model = model
+
+    def _set_params(self, params):
+        self.params = params
+
     def on_episode_begin(self, episode, logs={}):
         pass
 
@@ -39,6 +45,16 @@ class CallbackList(KerasCallbackList):
         for callback in self.callbacks:
             if callable(getattr(callback, '_set_env', None)):
                 callback._set_env(env)
+
+    def _set_model(self, model):
+        for callback in self.callbacks:
+            if callable(getattr(callback, '_set_model', None)):
+                callback._set_model(model)
+
+    def _set_params(self, params):
+        for callback in self.callbacks:
+            if callable(getattr(callback, '_set_params', None)):
+                callback._set_params(params)
 
     def on_episode_begin(self, episode, logs={}):
         for callback in self.callbacks:
